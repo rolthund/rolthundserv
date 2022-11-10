@@ -12,6 +12,7 @@
     <module>customer</module>
       <module>fraud</module>
     <module>eureka-server</module>
+    <module>clients</module>
   </modules>
 
   <name>rolthundserv</name>
@@ -23,7 +24,8 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <spring.boot.maven.plugin.version>2.7.5</spring.boot.maven.plugin.version>
     <spring.boot.dependencies.version>2.7.5</spring.boot.dependencies.version>
-    <spring.cloud.version>2021.0.3</spring.cloud.version>
+    <spring.cloud.version>2021.0.4</spring.cloud.version>
+    <spring.cloud.openfeign.version>3.1.4</spring.cloud.openfeign.version>
   </properties>
 
   <dependencyManagement>
@@ -56,6 +58,13 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <version>${spring.boot.dependencies.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+      <version>${spring.cloud.openfeign.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
