@@ -6,7 +6,11 @@
 
   <groupId>com.rolthund</groupId>
   <artifactId>rolthundserv</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>customer</module>
+  </modules>
 
   <name>rolthundserv</name>
   <url>http://www.rolthund.com</url>
