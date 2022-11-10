@@ -1,4 +1,4 @@
-package com.rolthund.customer;
+package com.rolthund.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }

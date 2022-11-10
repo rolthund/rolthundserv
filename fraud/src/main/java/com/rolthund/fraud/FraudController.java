@@ -1,7 +1,9 @@
 package com.rolthund.fraud;
 
+import com.rolthund.clients.fraud.FraudCheckResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
