@@ -1,5 +1,6 @@
 package com.rolthund.customer;
 
+import com.rolthund.amqp.RabbitMQMessageProducer;
 import com.rolthund.clients.fraud.FraudCheckResponse;
 import com.rolthund.clients.fraud.FraudClient;
 import com.rolthund.clients.notification.NotificationClient;
@@ -13,34 +14,41 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 public class CustomerService {
 
-    private final RestTemplate restTemplate;
-
     private final CustomerRepository customerRepository;
 
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer producer;
 
-    public void registerCustomer(CustomerRegistrationRequest request) {
+    public void registerCustomer(CustomerRegistrationRequest customerRequest) {
         Customer customer = Customer.builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .email(request.email())
+                .firstName(customerRequest.firstName())
+                .lastName(customerRequest.lastName())
+                .email(customerRequest.email())
                 .build();
-
+        //todo: check if email is valid
+        //todo: check if email is not taken
         customerRepository.saveAndFlush(customer);
 
+        FraudCheckResponse fraudCkeckResponse = fraudClient.isFraudster(customer.getId());
 
-        FraudCheckResponse fraudCheckResponse =
-                fraudClient.isFraudster(customer.getId());
 
-        if(fraudCheckResponse.isFraudster()) {
+
+        if (fraudCkeckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
 
-        notificationClient.sendNotification(new NotificationRequest(
+        //todo: send notification
+        NotificationRequest notificationRequest = new NotificationRequest(
                 customer.getId(),
                 customer.getEmail(),
-                String.format("Hi, %s", customer.getFirstName())
-        ));
+                "dffd"
+
+        );
+
+        producer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 }
