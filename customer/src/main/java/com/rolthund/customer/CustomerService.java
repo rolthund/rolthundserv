@@ -41,7 +41,7 @@ public class CustomerService {
         NotificationRequest notificationRequest = new NotificationRequest(
                 customer.getId(),
                 customer.getEmail(),
-                "dffd"
+                String.format("Hi %s, welcome!", customer.getFirstName())
 
         );
 
